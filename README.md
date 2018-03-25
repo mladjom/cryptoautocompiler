@@ -15,7 +15,7 @@ It then detects what commands to use to compile the coin.
 
 ### Usage
 
-    curl -Lo compilerer.sh https://raw.githubusercontent.com/mladjom/cryptoautocompiler/master/compilerer.sh
+    curl -Lo compiler.sh https://raw.githubusercontent.com/mladjom/cryptoautocompiler/master/compiler.sh
 
     bash compiler.sh
 
