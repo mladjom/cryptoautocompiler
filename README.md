@@ -18,6 +18,8 @@ I have not had a coin fail yet unless there is a development issue with the coin
 ### Tested coins:
 
 *  [GoaCoin](https://github.com/goacoincore/goacoin.git)
+*  [Polis](https://github.com/polispay/polis.git)
+*  [Digifel](https://github.com/digifel/digifel-core.git)
 
 ### Usage
 

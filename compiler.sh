@@ -1,6 +1,4 @@
-#!/bin/bash
-
-#   After entering coin name and github link automatically build coin
+#!/usr/bin/env bash
 
 output() {
     printf "\E[0;33;40m"
@@ -14,7 +12,7 @@ displayErr() {
     exit 1;
 }
 output "Installing dependicies on your system!"
-# Ensure that the system is up to date
+#Ensure that the system is up to date
 sudo apt-get -y update && sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 sudo apt-get -y autoremove
@@ -44,7 +42,7 @@ sudo add-apt-repository ppa:bitcoin/bitcoin
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
-output ""
+output "Dependencies installed"
     read -e -p "Enter the name of the coin : " coin
     read -e -p "Paste the github link for the coin : " git_hub
 if [[ -d "$coin" ]]; then
@@ -85,8 +83,8 @@ output "Create coin.conf"
     read -e -p "Enter the rpcuser : " rpcuser
     read -e -p "Enter the rpcpassword : " rpcpassword
     read -e -p "Enter the rpcport : " rpcport
-    read -e -p "Enter server IP address : " ip
     read -e -p "Enter the port : " port
+    WANIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 echo '
 rpcuser='$rpcuser'
 rpcpassword='$rpcpassword'
@@ -98,13 +96,14 @@ daemon=1
 txindex=1
 logtimestamps=1
 maxconnections=256
-externalip='$ip'
-bind='$ip':'$port'
+externalip='$WANIP'
+bind='$WANIP':'$port'
 ' | sudo -E tee ".${coin}core/${coin}.conf" >/dev/null 2>&1
 sudo chmod 0600 ".${coin}core/${coin}.conf"
 echo "~/.${coin}core/${coin}.conf"
 "${coin}d" -daemon -txindex
 sleep 5
 "${coin}-cli" getmininginfo
-curl -u '$rpcuser':'$rpcpassword' --data-binary '{"id":"t0", "method": "getinfo", "params": [] }' http://127.0.0.1:'$rpcport'
+#curl -u '$rpcuser':'$rpcpassword' --data-binary '{"id":"t0", "method": "getinfo", "params": [] }' http://127.0.0.1:'$rpcport'
+echo curl -u '$rpcuser':'$rpcpassword' --data-binary '{"id":"t0", "method": "getinfo", "params": [] }' http://127.0.0.1:'$rpcport'
 output "Everything OK"
