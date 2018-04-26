@@ -16,7 +16,7 @@ output "Installing dependicies on your system!"
 sudo apt-get -y update && sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 sudo apt-get -y autoremove
-sudo apt-get -y install curl nano vim git
+sudo apt-get -y install curl nano vim git htop
 sudo apt-get -y install unzip
 sudo apt-get -y install systemd
 # Swap
@@ -30,25 +30,29 @@ sudo chown root:root /var/swap.img
 # Please carefully watch the logs because if something could not be install
 # You have to make sure it is installed properly by trying the command or that particular
 # dependency again
-sudo apt-get -y install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
-sudo apt-get -y install libboost-all-dev
+
+sudo apt-get -y install automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev libboost-all-dev
 sudo apt-get -y install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-sudo apt-get -y install libqrencode-dev autoconf openssl libssl-dev libevent-dev
+sudo apt-get -y install libqrencode-dev libevent-dev
 sudo apt-get -y install libminiupnpc-dev
+sudo apt-get -y install bsdmainutils libtool-bin
+#sudo apt-get install -y autoconf autogen
+
 #BerkeleyDB is required for the wallet.
 sudo apt install software-properties-common
-#sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial universe"
 sudo add-apt-repository ppa:bitcoin/bitcoin
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
+# sudo apt-get -y install libdb5.3-dev libdb5.3++-dev
 output "Dependencies installed"
     read -e -p "Enter the name of the coin : " coin
     read -e -p "Paste the github link for the coin : " git_hub
 if [[ -d "$coin" ]]; then
     output "$coin already exists" 1>&2
 else
-    sudo  git clone $git_hub  $coin
+    sudo  git clone $git_hub $coin
+    sudo chmod -R 777 $coin
 fi
 if [ ! -f "${coin}/src/${coin}d" ]; then
 cd "${coin}"
@@ -90,7 +94,7 @@ rpcuser='$rpcuser'
 rpcpassword='$rpcpassword'
 rpcport='$rpcport'
 rpcallowip=127.0.0.1
-listen=1
+listen=
 server=1
 daemon=1
 txindex=1
